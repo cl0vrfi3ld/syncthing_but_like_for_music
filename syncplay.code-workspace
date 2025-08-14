@@ -9,5 +9,12 @@
         {
             "path": "rust","name": "Rust code"
         }
-    ]
+    ],
+    "extensions": {
+        "recommendations": [
+            "dart-code.flutter",
+            "rust-lang.rust-analyzer",
+            "dart-code.dart-code"
+        ]
+    }
 }
