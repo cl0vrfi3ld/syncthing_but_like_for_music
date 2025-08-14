@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "lib","name": "Flutter code"
+        },
+        {
+            "path": "rust","name": "Rust code"
+        }
+    ]
+}
