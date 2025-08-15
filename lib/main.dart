@@ -1,11 +1,8 @@
-// The original content is temporarily commented out to allow generating a self-contained demo - feel free to uncomment later.
-
-// import 'package:flutter/material.dart';
-//
-
 import 'package:flutter/material.dart';
 import 'package:syncthing_but_like_for_music/src/rust/api/sync_engine.dart';
 import 'package:syncthing_but_like_for_music/src/rust/frb_generated.dart';
+
+import 'routing.dart';
 
 // async entrypoint
 Future<void> main() async {
@@ -13,14 +10,33 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+final List<AppRoute> appRoutes = [
+  AppRoute(name: "Home", icon: Icon(Icons.home), body: RteOne(), path: ''),
+
+  AppRoute(
+    name: "Text",
+    icon: Icon(Icons.favorite),
+    body: Text("Text"),
+    path: 'text',
+  ),
+];
+
+final appRouter = TheRouter(
+  routes: appRoutes,
+  layout: AppRoot(title: 'Sync Local Music App'),
+);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    appRouter.initRouter();
+    return MaterialApp.router(
+      routerConfig: appRouter.router,
       title: 'Flutter Demo',
+
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -39,50 +55,39 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: AppRoot(title: 'Sync Local Music App'),
+      // home: AppRoot(title: 'Sync Local Music App'),
+    );
+  }
+}
+
+class RteOne extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    String greeting = greet(name: "I'm a Mac");
+    return Center(
+      child: Text(greeting, style: Theme.of(context).textTheme.displayLarge),
     );
   }
 }
 
 class AppRoot extends StatefulWidget {
   final String title;
+  Widget child;
   // final List<Map<String, Object>> routes;
 
-  const AppRoot({super.key, required this.title});
+  AppRoot({
+    super.key,
+    required this.title,
+    this.child = const Text("this is awkward..."),
+  });
 
   @override
   State<AppRoot> createState() => _AppRootState();
 }
 
-class AppRoute {
-  final String name;
-  final Widget icon;
-  final Widget body;
-
-  AppRoute({required this.name, required this.icon, required this.body});
-}
-
-final List<AppRoute> appRoutes = [
-  AppRoute(name: "Text", icon: Icon(Icons.home), body: RteOne()),
-  
-  AppRoute(name: "Text", icon: Icon(Icons.favorite), body: Text("Text")),
-];
-
-class RteOne extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    String greeting = greet(name: "I'm a Mac");
-    return Container(
-      child: Center(
-        child: Text(greeting, style: Theme.of(context).textTheme.displayLarge),
-      ),
-    );
-  }
-}
-
 class _AppRootState extends State<AppRoot> {
   var selectedPageIndex = 0;
-  
+
   // eventually the layout will need to dynamically switch to a bottom nav bar based on screen size
   @override
   Widget build(BuildContext context) {
@@ -90,21 +95,26 @@ class _AppRootState extends State<AppRoot> {
       body: Row(
         children: [
           SafeArea(
-            child: NavigationRail(
-              destinations: appRoutes
-                  .map(
-                    (route) => NavigationRailDestination(
-                      icon: route.icon,
-                      label: Text(route.name),
-                    ),
-                  )
-                  .toList(),
-              selectedIndex: selectedPageIndex,
-              onDestinationSelected: (newRouteIndex) {
-                setState(() {
-                  selectedPageIndex = newRouteIndex;
-                });
-              },
+            child: Row(
+              children: [
+                NavigationRail(
+                  destinations: appRoutes
+                      .map(
+                        (route) => NavigationRailDestination(
+                          icon: route.icon,
+                          label: Text(route.name),
+                        ),
+                      )
+                      .toList(),
+                  selectedIndex: selectedPageIndex,
+                  onDestinationSelected: (newRouteIndex) {
+                    setState(() {
+                      selectedPageIndex = newRouteIndex;
+                    });
+                  },
+                ),
+                widget.child,
+              ],
             ),
           ),
         ],
