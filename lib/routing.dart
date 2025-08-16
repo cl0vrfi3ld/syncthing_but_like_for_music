@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'routes/routes.dart';
+
 class AppRoute {
   final String name;
   final String path;
@@ -16,54 +18,115 @@ class AppRoute {
   });
 }
 
-abstract class LayoutWidget extends StatelessWidget {
+int _routeIndexFromPathSafe(String path, List<AppRoute> routes) {
+  int currentIndex = routes.indexWhere((route) => route.path.startsWith(path));
+  int safeIndex = currentIndex >= 0 ? currentIndex : 0;
+  return safeIndex;
+}
+
+int _routeIndexFromPathUnsafe(String path, List<AppRoute> routes) {
+  int currentIndex = routes.indexWhere((route) => route.path.startsWith(path));
+  if (currentIndex < 0) {
+    throw Error();
+  } else {
+    return currentIndex;
+  }
+}
+
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _shellNavigatorKey =
+    GlobalKey<NavigatorState>();
+
+final theAppRouter = GoRouter(
+  navigatorKey: _rootNavigatorKey,
+  initialLocation: '/',
+  routes: [
+    ShellRoute(
+      // path: '/',
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) =>
+          AppLayout(appRoutes: appRoutes, child: child),
+      routes: appRoutes
+          .map<RouteBase>(
+            (route) => GoRoute(
+              path: route.path,
+              builder: (context, state) => route.body,
+            ),
+          )
+          .toList(),
+    ),
+  ],
+);
+
+class NoRouteDefined extends StatelessWidget {
+  const NoRouteDefined({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: const Text("this is awkward..."));
+  }
+}
+
+class AppLayout extends StatelessWidget {
+  final List<AppRoute> appRoutes;
   final Widget child;
 
-  const LayoutWidget({super.key, required this.child});
-
-  // @override
-  // Widget build(BuildContext context) => child;
-
-  // @override
-  // Element createElement() {
-
-  //   child
-  //   // TODO: implement createElement
-  //   throw UnimplementedError();
-  // }
-}
-
-class TheRouter {
-  late final GoRouter router;
-  final GlobalKey<NavigatorState> _rootNavigatorKey =
-      GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> _shellNavigatorKey =
-      GlobalKey<NavigatorState>();
-  final Widget layout;
-  final List<AppRoute> routes;
-
-  void initRouter() {
-    final initRouter = GoRouter(
-      navigatorKey: _rootNavigatorKey,
-      initialLocation: '/',
-      routes: [
-        ShellRoute(
-          // path: '/',
-          navigatorKey: _shellNavigatorKey,
-          builder: (context, state, child) => layout,
-          routes: routes
-              .map<RouteBase>(
-                (route) => GoRoute(
-                  path: '/${route.path}',
-                  builder: (context, state) => route.body,
-                ),
-              )
-              .toList(),
-        ),
-      ],
-    );
-    router = initRouter;
+  int _getSelectedPageIndex(BuildContext context, List<AppRoute> routes) {
+    String currentPath = GoRouterState.of(context).uri.toString();
+    return _routeIndexFromPathSafe(currentPath,routes);
   }
 
-  TheRouter({required this.routes, required this.layout});
+  void _setSelectedPageIndex(BuildContext context, int index,  List<AppRoute> routes) {
+    AppRoute route = routes[index];
+    context.go(route.path);
+  }
+
+  const AppLayout({
+    super.key,
+    required this.child,
+    required this.appRoutes,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body:
+          SafeArea(
+            child: Row(
+              children: [
+                NavigationRail(
+                  destinations: appRoutes
+                      .map(
+                        (route) => NavigationRailDestination(
+                          icon: route.icon,
+                          label: Text(route.name),
+                        ),
+                      )
+                      .toList(),
+                  selectedIndex: _getSelectedPageIndex(context, appRoutes),
+                  onDestinationSelected: (index) => _setSelectedPageIndex(context, index, appRoutes),
+                ),
+                child,
+              ],
+            ),
+          ),
+        
+    );
+  }
 }
+
+// class TheRouter {
+//   late final GoRouter router;
+//   final GlobalKey<NavigatorState> _rootNavigatorKey =
+//       GlobalKey<NavigatorState>();
+//   final GlobalKey<NavigatorState> _shellNavigatorKey =
+//       GlobalKey<NavigatorState>();
+//   final Widget layout;
+//   final List<AppRoute> routes;
+
+//   void initRouter() {
+//     router = initRouter;
+//   }
+
+//   TheRouter({required this.routes, required this.layout});
+// }

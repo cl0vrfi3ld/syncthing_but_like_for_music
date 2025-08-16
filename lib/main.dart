@@ -10,21 +10,11 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-final List<AppRoute> appRoutes = [
-  AppRoute(name: "Home", icon: Icon(Icons.home), body: RteOne(), path: ''),
 
-  AppRoute(
-    name: "Text",
-    icon: Icon(Icons.favorite),
-    body: Text("Text"),
-    path: 'text',
-  ),
-];
-
-final appRouter = TheRouter(
-  routes: appRoutes,
-  layout: AppRoot(title: 'Sync Local Music App'),
-);
+// final appRouter = TheRouter(
+//   routes: appRoutes,
+//   layout: AppRoot(title: 'Sync Local Music App'),
+// );
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -32,9 +22,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    appRouter.initRouter();
+    // appRouter.initRouter();
     return MaterialApp.router(
-      routerConfig: appRouter.router,
+      routerConfig: theAppRouter,
       title: 'Flutter Demo',
 
       theme: ThemeData(
@@ -60,68 +50,91 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class RteOne extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    String greeting = greet(name: "I'm a Mac");
-    return Center(
-      child: Text(greeting, style: Theme.of(context).textTheme.displayLarge),
-    );
-  }
-}
 
-class AppRoot extends StatefulWidget {
-  final String title;
-  Widget child;
-  // final List<Map<String, Object>> routes;
 
-  AppRoot({
-    super.key,
-    required this.title,
-    this.child = const Text("this is awkward..."),
-  });
+// class AppRoot extends LayoutWidget {
+//   final String title;
+//   // final List<Map<String, Object>> routes;
 
-  @override
-  State<AppRoot> createState() => _AppRootState();
-}
+//   AppRoot({
+//     super.key,
+//     required this.title,
+//   });
 
-class _AppRootState extends State<AppRoot> {
-  var selectedPageIndex = 0;
+//   // @override
+//   // State<AppRoot> createState() => _AppRootState();
+  
+//   @override
+//   Widget build(BuildContext context) {
+//    return Scaffold(
+//       body: Row(
+//         children: [
+//           SafeArea(
+//             child: Row(
+//               children: [
+//                 NavigationRail(
+//                   destinations: appRoutes
+//                       .map(
+//                         (route) => NavigationRailDestination(
+//                           icon: route.icon,
+//                           label: Text(route.name),
+//                         ),
+//                       )
+//                       .toList(),
+//                   selectedIndex: selectedPageIndex,
+//                   onDestinationSelected: (newRouteIndex) {
+//                     setState(() {
+//                       selectedPageIndex = newRouteIndex;
+//                     });
+//                   },
+//                 ),
+//                 child,
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-  // eventually the layout will need to dynamically switch to a bottom nav bar based on screen size
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          SafeArea(
-            child: Row(
-              children: [
-                NavigationRail(
-                  destinations: appRoutes
-                      .map(
-                        (route) => NavigationRailDestination(
-                          icon: route.icon,
-                          label: Text(route.name),
-                        ),
-                      )
-                      .toList(),
-                  selectedIndex: selectedPageIndex,
-                  onDestinationSelected: (newRouteIndex) {
-                    setState(() {
-                      selectedPageIndex = newRouteIndex;
-                    });
-                  },
-                ),
-                widget.child,
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class _AppRootState extends State<AppRoot> {
+//   var selectedPageIndex = 0;
+
+//   // eventually the layout will need to dynamically switch to a bottom nav bar based on screen size
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Row(
+//         children: [
+//           SafeArea(
+//             child: Row(
+//               children: [
+//                 NavigationRail(
+//                   destinations: appRoutes
+//                       .map(
+//                         (route) => NavigationRailDestination(
+//                           icon: route.icon,
+//                           label: Text(route.name),
+//                         ),
+//                       )
+//                       .toList(),
+//                   selectedIndex: selectedPageIndex,
+//                   onDestinationSelected: (newRouteIndex) {
+//                     setState(() {
+//                       selectedPageIndex = newRouteIndex;
+//                     });
+//                   },
+//                 ),
+//                 widget.child,
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
