@@ -7,7 +7,7 @@ import 'routes/routes.dart';
 class AppRoute {
   final String name;
   final String path;
-  final Widget icon;
+  final Icon icon;
   final Widget body;
 
   AppRoute({
