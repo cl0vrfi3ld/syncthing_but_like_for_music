@@ -37,7 +37,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(de
 final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: "AppShellNavigator");
 
-final theAppRouter = GoRouter(
+final mainAppRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/',
   routes: [
@@ -114,18 +114,3 @@ class AppLayout extends StatelessWidget {
   }
 }
 
-// class TheRouter {
-//   late final GoRouter router;
-//   final GlobalKey<NavigatorState> _rootNavigatorKey =
-//       GlobalKey<NavigatorState>();
-//   final GlobalKey<NavigatorState> _shellNavigatorKey =
-//       GlobalKey<NavigatorState>();
-//   final Widget layout;
-//   final List<AppRoute> routes;
-
-//   void initRouter() {
-//     router = initRouter;
-//   }
-
-//   TheRouter({required this.routes, required this.layout});
-// }
