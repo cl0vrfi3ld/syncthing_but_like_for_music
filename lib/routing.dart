@@ -33,16 +33,15 @@ int _routeIndexFromPathUnsafe(String path, List<AppRoute> routes) {
   }
 }
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "RootNavigator");
 final GlobalKey<NavigatorState> _shellNavigatorKey =
-    GlobalKey<NavigatorState>();
+    GlobalKey<NavigatorState>(debugLabel: "AppShellNavigator");
 
 final theAppRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/',
   routes: [
     ShellRoute(
-      // path: '/',
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) =>
           AppLayout(appRoutes: appRoutes, child: child),
