@@ -150,11 +150,13 @@ class AppLayout extends StatelessWidget {
     final List<AppRoute> allRoutes = mainAppRoutes + [playerRoute];
     return Scaffold(
       body: SafeArea(
-        child: Row(
+        child: Flex(
+          // CHANGE THIS LATER WITH DYNAMIC LOGIC DEPENDING ON LAYOUT AND SCREEN SIZE
+          direction: Axis.horizontal,
           children: [
             NavigationRail(
               destinations:
-                  // iterate over main app routes 
+                  // iterate over main app routes
                   allRoutes
                       .map(
                         (route) => NavigationRailDestination(
@@ -162,13 +164,12 @@ class AppLayout extends StatelessWidget {
                           label: Text(route.name),
                         ),
                       )
-                      .toList() ,
-                 
+                      .toList(),
               selectedIndex: _getSelectedPageIndex(context, allRoutes),
               onDestinationSelected: (index) =>
                   _setSelectedPageIndex(context, index, allRoutes),
             ),
-            child,
+            Expanded(child: child),
           ],
         ),
       ),
