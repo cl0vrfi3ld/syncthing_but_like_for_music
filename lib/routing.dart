@@ -13,6 +13,11 @@ class AppRoute {
 
   /// the icon representing the route
   final Icon icon;
+
+  /// the outlined version of the route's icon
+  final Icon iconOutlined;
+
+  /// the actual widget/content to be rendered for the route
   final Widget body;
   final bool player;
 
@@ -20,6 +25,7 @@ class AppRoute {
     required this.name,
     required this.path,
     required this.icon,
+    required this.iconOutlined,
     required this.body,
     this.player = false,
   });
