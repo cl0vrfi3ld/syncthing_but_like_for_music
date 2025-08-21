@@ -5,13 +5,18 @@ import 'package:go_router/go_router.dart';
 import 'routes/routes.dart';
 
 class AppRoute {
+  /// the title of the page
   final String name;
+
+  /// the rotue/path of the pahe
   final String path;
+
+  /// the icon representing the route
   final Icon icon;
   final Widget body;
   final bool player;
 
-  AppRoute({
+  const AppRoute({
     required this.name,
     required this.path,
     required this.icon,
@@ -35,9 +40,12 @@ int _routeIndexFromPathUnsafe(String path, List<AppRoute> routes) {
   }
 }
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "RootNavigator");
-final GlobalKey<NavigatorState> _shellNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: "AppShellNavigator");
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: "RootNavigator",
+);
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: "AppShellNavigator",
+);
 
 final mainAppRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -46,8 +54,8 @@ final mainAppRouter = GoRouter(
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) =>
-          AppLayout(appRoutes: appRoutes, child: child),
-      routes: appRoutes
+          AppLayout(mainAppRoutes: mainAppRoutes, child: child),
+      routes: mainAppRoutes
           .map<RouteBase>(
             (route) => GoRoute(
               name: route.name,
@@ -69,16 +77,21 @@ class NoRouteDefined extends StatelessWidget {
   }
 }
 
+/// our primary app shell/layout widget, surrounds main views with nav and other context info
 class AppLayout extends StatelessWidget {
-  final List<AppRoute> appRoutes;
+  final List<AppRoute> mainAppRoutes;
   final Widget child;
 
   int _getSelectedPageIndex(BuildContext context, List<AppRoute> routes) {
     String currentPath = GoRouterState.of(context).uri.toString();
-    return _routeIndexFromPathSafe(currentPath,routes);
+    return _routeIndexFromPathSafe(currentPath, routes);
   }
 
-  void _setSelectedPageIndex(BuildContext context, int index,  List<AppRoute> routes) {
+  void _setSelectedPageIndex(
+    BuildContext context,
+    int index,
+    List<AppRoute> routes,
+  ) {
     AppRoute route = routes[index];
     context.go(route.path);
   }
@@ -86,18 +99,17 @@ class AppLayout extends StatelessWidget {
   const AppLayout({
     super.key,
     required this.child,
-    required this.appRoutes,
+    required this.mainAppRoutes,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          SafeArea(
+      body: SafeArea(
             child: Row(
               children: [
                 NavigationRail(
-                  destinations: appRoutes
+              destinations: mainAppRoutes
                       .map(
                         (route) => NavigationRailDestination(
                           icon: route.icon,
@@ -105,15 +117,14 @@ class AppLayout extends StatelessWidget {
                         ),
                       )
                       .toList(),
-                  selectedIndex: _getSelectedPageIndex(context, appRoutes),
-                  onDestinationSelected: (index) => _setSelectedPageIndex(context, index, appRoutes),
+              selectedIndex: _getSelectedPageIndex(context, mainAppRoutes),
+              onDestinationSelected: (index) =>
+                  _setSelectedPageIndex(context, index, mainAppRoutes),
                 ),
                 child,
               ],
             ),
           ),
-        
     );
   }
 }
-
