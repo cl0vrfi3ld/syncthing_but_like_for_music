@@ -6,8 +6,33 @@ import 'library/library.dart';
 import 'player.dart';
 import 'search.dart';
 
+/// container class/object for our routes
+class AppRoutesConfig {
+  final List<AppRoute> mainShellAppRoutes;
+  final List<AppRoute> libraryRoutes;
+  final PlayerRoute playerRoute;
+
+  AppRoutesConfig({
+    required this.mainShellAppRoutes,
+    required this.libraryRoutes,
+    required this.playerRoute,
+  });
+}
+
+final AppRoutesConfig appRoutesConfig = AppRoutesConfig(
+  mainShellAppRoutes: _mainAppRoutes,
+  libraryRoutes: _libraryAppRoutes,
+  playerRoute: PlayerRoute(
+    name: "Now Playing",
+    path: '/player',
+    icon: Icon(Icons.play_circle),
+    iconOutlined: Icon(Icons.play_circle_outlined),
+    body: RoutePlayer(),
+  ),
+);
+
 /// a register of base app routes
-final List<AppRoute> mainAppRoutes = [
+final List<AppRoute> _mainAppRoutes = [
   AppRoute(
     name: "Home",
     icon: Icon(Icons.home),
@@ -29,13 +54,7 @@ final List<AppRoute> mainAppRoutes = [
     iconOutlined: Icon(Icons.search_outlined),
     body: RouteSearch(),
   ),
-  PlayerRoute(
-    name: "Now Playing",
-    path: '/player',
-    icon: Icon(Icons.play_circle),
-    iconOutlined: Icon(Icons.play_circle_outlined),
-    body: RoutePlayer(),
-  ),
+
   // AppRoute(
   //   name: "Text",
   //   icon: Icon(Icons.favorite),
@@ -44,4 +63,4 @@ final List<AppRoute> mainAppRoutes = [
   // ),
 ];
 
-final List<AppRoute> libraryAppRoutes = [];
+final List<AppRoute> _libraryAppRoutes = [];

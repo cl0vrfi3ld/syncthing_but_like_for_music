@@ -31,7 +31,6 @@ class AppRoute {
 
 /// AppRoute class with parameter options
 class ParameterAppRoute extends AppRoute {
-
   ParameterAppRoute({
     required super.name,
     required super.path,
@@ -76,6 +75,8 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: "AppShellNavigator",
 );
 
+final mainAppRoutes = appRoutesConfig.mainShellAppRoutes;
+
 final mainAppRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/',
@@ -93,6 +94,11 @@ final mainAppRouter = GoRouter(
             ),
           )
           .toList(),
+    ),
+    GoRoute(
+      name: appRoutesConfig.playerRoute.name,
+      path: appRoutesConfig.playerRoute.path,
+      builder: (context, state) => appRoutesConfig.playerRoute.body,
     ),
   ],
 );
