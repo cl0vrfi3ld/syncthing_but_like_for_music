@@ -9,12 +9,14 @@ class AppRoute {
   final String path;
   final Icon icon;
   final Widget body;
+  final bool player;
 
   AppRoute({
     required this.name,
     required this.path,
     required this.icon,
     required this.body,
+    this.player = false,
   });
 }
 
