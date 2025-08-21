@@ -10,22 +10,15 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-
-// final appRouter = TheRouter(
-//   routes: appRoutes,
-//   layout: AppRoot(title: 'Sync Local Music App'),
-// );
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // appRouter.initRouter();
     return MaterialApp.router(
       routerConfig: mainAppRouter,
-      title: 'Flutter Demo',
+      title: 'Syncplay',
 
       theme: ThemeData(
         // This is the theme of your application.
@@ -45,111 +38,6 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      // home: AppRoot(title: 'Sync Local Music App'),
     );
   }
 }
-
-
-
-// class AppRoot extends LayoutWidget {
-//   final String title;
-//   // final List<Map<String, Object>> routes;
-
-//   AppRoot({
-//     super.key,
-//     required this.title,
-//   });
-
-//   // @override
-//   // State<AppRoot> createState() => _AppRootState();
-  
-//   @override
-//   Widget build(BuildContext context) {
-//    return Scaffold(
-//       body: Row(
-//         children: [
-//           SafeArea(
-//             child: Row(
-//               children: [
-//                 NavigationRail(
-//                   destinations: appRoutes
-//                       .map(
-//                         (route) => NavigationRailDestination(
-//                           icon: route.icon,
-//                           label: Text(route.name),
-//                         ),
-//                       )
-//                       .toList(),
-//                   selectedIndex: selectedPageIndex,
-//                   onDestinationSelected: (newRouteIndex) {
-//                     setState(() {
-//                       selectedPageIndex = newRouteIndex;
-//                     });
-//                   },
-//                 ),
-//                 child,
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class _AppRootState extends State<AppRoot> {
-//   var selectedPageIndex = 0;
-
-//   // eventually the layout will need to dynamically switch to a bottom nav bar based on screen size
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Row(
-//         children: [
-//           SafeArea(
-//             child: Row(
-//               children: [
-//                 NavigationRail(
-//                   destinations: appRoutes
-//                       .map(
-//                         (route) => NavigationRailDestination(
-//                           icon: route.icon,
-//                           label: Text(route.name),
-//                         ),
-//                       )
-//                       .toList(),
-//                   selectedIndex: selectedPageIndex,
-//                   onDestinationSelected: (newRouteIndex) {
-//                     setState(() {
-//                       selectedPageIndex = newRouteIndex;
-//                     });
-//                   },
-//                 ),
-//                 widget.child,
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(title: const Text('flutter_rust_bridge quickstart')),
-//         body: Center(
-//           child: Text(
-//             'Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`',
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
