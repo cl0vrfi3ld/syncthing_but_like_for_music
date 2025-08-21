@@ -135,25 +135,25 @@ class AppLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-            child: Row(
-              children: [
-                NavigationRail(
+        child: Row(
+          children: [
+            NavigationRail(
               destinations: mainAppRoutes
-                      .map(
-                        (route) => NavigationRailDestination(
-                          icon: route.icon,
-                          label: Text(route.name),
-                        ),
-                      )
-                      .toList(),
+                  .map(
+                    (route) => NavigationRailDestination(
+                      icon: route.icon,
+                      label: Text(route.name),
+                    ),
+                  )
+                  .toList(),
               selectedIndex: _getSelectedPageIndex(context, mainAppRoutes),
               onDestinationSelected: (index) =>
                   _setSelectedPageIndex(context, index, mainAppRoutes),
-                ),
-                child,
-              ],
             ),
-          ),
+            child,
+          ],
+        ),
+      ),
     );
   }
 }
