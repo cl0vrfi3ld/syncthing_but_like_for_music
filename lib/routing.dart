@@ -50,6 +50,7 @@ final mainAppRouter = GoRouter(
       routes: appRoutes
           .map<RouteBase>(
             (route) => GoRoute(
+              name: route.name,
               path: route.path,
               builder: (context, state) => route.body,
             ),
