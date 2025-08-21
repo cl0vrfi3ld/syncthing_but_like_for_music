@@ -29,9 +29,9 @@ class AppRoute {
   });
 }
 
-/// AppRoute class with parameter options
-class ParameterAppRoute extends AppRoute {
-  ParameterAppRoute({
+/// AppRoute class with library-specific parameter options
+class LibraryAppRoute extends AppRoute {
+  LibraryAppRoute({
     required super.name,
     required super.path,
     required super.icon,
@@ -76,6 +76,8 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
 );
 
 final mainAppRoutes = appRoutesConfig.mainShellAppRoutes;
+final libraryAppRoutes = appRoutesConfig.libraryRoutes;
+final playerRoute = appRoutesConfig.playerRoute;
 
 final mainAppRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -83,8 +85,11 @@ final mainAppRouter = GoRouter(
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
-      builder: (context, state, child) =>
-          AppLayout(mainAppRoutes: mainAppRoutes, child: child),
+      builder: (context, state, child) => AppLayout(
+        mainAppRoutes: mainAppRoutes,
+        playerRoute: playerRoute,
+        child: child,
+      ),
       routes: mainAppRoutes
           .map<RouteBase>(
             (route) => GoRoute(
@@ -96,9 +101,9 @@ final mainAppRouter = GoRouter(
           .toList(),
     ),
     GoRoute(
-      name: appRoutesConfig.playerRoute.name,
-      path: appRoutesConfig.playerRoute.path,
-      builder: (context, state) => appRoutesConfig.playerRoute.body,
+      name: playerRoute.name,
+      path: playerRoute.path,
+      builder: (context, state) => playerRoute.body,
     ),
   ],
 );
@@ -115,6 +120,7 @@ class NoRouteDefined extends StatelessWidget {
 /// our primary app shell/layout widget, surrounds main views with nav and other context info
 class AppLayout extends StatelessWidget {
   final List<AppRoute> mainAppRoutes;
+  final PlayerRoute playerRoute;
   final Widget child;
 
   int _getSelectedPageIndex(BuildContext context, List<AppRoute> routes) {
@@ -135,26 +141,32 @@ class AppLayout extends StatelessWidget {
     super.key,
     required this.child,
     required this.mainAppRoutes,
+    required this.playerRoute,
   });
 
   @override
   Widget build(BuildContext context) {
+    // add in now playing route
+    final List<AppRoute> allRoutes = mainAppRoutes + [playerRoute];
     return Scaffold(
       body: SafeArea(
         child: Row(
           children: [
             NavigationRail(
-              destinations: mainAppRoutes
-                  .map(
-                    (route) => NavigationRailDestination(
-                      icon: route.icon,
-                      label: Text(route.name),
-                    ),
-                  )
-                  .toList(),
-              selectedIndex: _getSelectedPageIndex(context, mainAppRoutes),
+              destinations:
+                  // iterate over main app routes 
+                  allRoutes
+                      .map(
+                        (route) => NavigationRailDestination(
+                          icon: route.icon,
+                          label: Text(route.name),
+                        ),
+                      )
+                      .toList() ,
+                 
+              selectedIndex: _getSelectedPageIndex(context, allRoutes),
               onDestinationSelected: (index) =>
-                  _setSelectedPageIndex(context, index, mainAppRoutes),
+                  _setSelectedPageIndex(context, index, allRoutes),
             ),
             child,
           ],
