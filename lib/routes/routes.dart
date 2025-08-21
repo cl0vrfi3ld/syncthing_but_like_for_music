@@ -6,11 +6,12 @@ import 'library/library.dart';
 import 'player.dart';
 import 'search.dart';
 
-/// container class/object for our routes
+/// container class/object for our routes. this allows us to register all of our routes in one central object and derive routing logic, 
 class AppRoutesConfig {
   final List<AppRoute> mainShellAppRoutes;
   final List<AppRoute> libraryRoutes;
   final PlayerRoute playerRoute;
+  List<AppRoute> get allMainShellAppRoutes => mainAppRoutes + [playerRoute];
 
   AppRoutesConfig({
     required this.mainShellAppRoutes,

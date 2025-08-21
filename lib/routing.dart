@@ -147,7 +147,8 @@ class AppLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // add in now playing route
-    final List<AppRoute> allRoutes = mainAppRoutes + [playerRoute];
+    final List<AppRoute> allRoutes = appRoutesConfig.allMainShellAppRoutes;
+    
     return Scaffold(
       body: SafeArea(
         child: Flex(
