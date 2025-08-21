@@ -8,7 +8,7 @@ class AppRoute {
   /// the title of the page
   final String name;
 
-  /// the rotue/path of the pahe
+  /// the route/path of the pahe
   final String path;
 
   /// the icon representing the route
@@ -20,12 +20,16 @@ class AppRoute {
   /// the actual widget/content to be rendered for the route
   final Widget body;
 
+  /// mark this specific route as the root route for its category
+  final bool root;
+
   const AppRoute({
     required this.name,
     required this.path,
-    required this.icon,
-    required this.iconOutlined,
     required this.body,
+    this.icon = const Icon(Icons.place),
+    this.iconOutlined = const Icon(Icons.place_outlined),
+    this.root = false,
   });
 }
 
@@ -34,9 +38,10 @@ class LibraryAppRoute extends AppRoute {
   LibraryAppRoute({
     required super.name,
     required super.path,
-    required super.icon,
-    required super.iconOutlined,
     required super.body,
+    super.icon,
+    super.iconOutlined,
+    super.root,
   });
 }
 
@@ -47,9 +52,10 @@ class PlayerRoute extends AppRoute {
     this.player = true,
     required super.name,
     required super.path,
-    required super.icon,
-    required super.iconOutlined,
     required super.body,
+    super.icon,
+    super.iconOutlined,
+    super.root,
   });
 }
 
@@ -148,7 +154,7 @@ class AppLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     // add in now playing route
     final List<AppRoute> allRoutes = appRoutesConfig.allMainShellAppRoutes;
-    
+
     return Scaffold(
       body: SafeArea(
         child: Flex(
