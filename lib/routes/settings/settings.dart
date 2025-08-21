@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../src/rust/api/sync_engine.dart';
 
-class RouteSettings extends StatelessWidget {
-  const RouteSettings({super.key});
+class RouteSettingsRoot extends StatelessWidget {
+  const RouteSettingsRoot({super.key});
 
   @override
   Widget build(BuildContext context) {
