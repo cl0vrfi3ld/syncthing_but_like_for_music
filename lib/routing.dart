@@ -23,6 +23,9 @@ class AppRoute {
   /// mark this specific route as the root route for its category
   final bool root;
 
+  /// mark this route as routable to by a user
+  final bool isUserRoutable;
+
   const AppRoute({
     required this.name,
     required this.path,
@@ -30,6 +33,7 @@ class AppRoute {
     this.icon = const Icon(Icons.place),
     this.iconOutlined = const Icon(Icons.place_outlined),
     this.root = false,
+    this.isUserRoutable = true
   });
 }
 
@@ -82,7 +86,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
 );
 
 final mainAppRoutes = appRoutesConfig.mainShellAppRoutes;
-final libraryAppRoutes = appRoutesConfig.libraryRoutes;
+final libraryAppRoutes = appRoutesConfig.libraryShellRoutes;
 final playerRoute = appRoutesConfig.playerRoute;
 
 final mainAppRouter = GoRouter(
