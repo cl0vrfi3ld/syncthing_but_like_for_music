@@ -19,7 +19,6 @@ class AppRoute {
 
   /// the actual widget/content to be rendered for the route
   final Widget body;
-  final bool player;
 
   const AppRoute({
     required this.name,
@@ -27,7 +26,31 @@ class AppRoute {
     required this.icon,
     required this.iconOutlined,
     required this.body,
-    this.player = false,
+  });
+}
+
+/// AppRoute class with parameter options
+class ParameterAppRoute extends AppRoute {
+
+  ParameterAppRoute({
+    required super.name,
+    required super.path,
+    required super.icon,
+    required super.iconOutlined,
+    required super.body,
+  });
+}
+
+/// a special version of the AppRoute with extra metadata for our player wideget
+class PlayerRoute extends AppRoute {
+  final bool player;
+  const PlayerRoute({
+    this.player = true,
+    required super.name,
+    required super.path,
+    required super.icon,
+    required super.iconOutlined,
+    required super.body,
   });
 }
 
