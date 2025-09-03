@@ -1,5 +1,7 @@
 // networking code. management, initialization, etc
 
+use std::sync::Mutex;
+
 use iroh::{protocol::Router, Endpoint};
 use iroh_blobs::{store::mem::MemStore, BlobsProtocol, ALPN as BLOBS_ALPN};
 use iroh_docs::{protocol::Docs, ALPN as DOCS_ALPN};
@@ -12,11 +14,11 @@ pub fn test() -> String {
 #[flutter_rust_bridge::frb(opaque)]
 pub struct NetController {
     // endpoint: Endpoint,
-    router: Router,
-    store: MemStore,
-    pub blobs_protocol: BlobsProtocol,
-    pub docs_protocol: Docs,
-    pub gossip_protocol: Gossip,
+    router: Mutex<Router>,
+    store: Mutex<MemStore>,
+    pub blobs_protocol: Mutex<BlobsProtocol>,
+    pub docs_protocol: Mutex<Docs>,
+    pub gossip_protocol: Mutex<Gossip>,
 }
 
 impl NetController {
@@ -44,11 +46,11 @@ impl NetController {
             .spawn();
 
         Ok(Self {
-            store,
-            blobs_protocol: blobs,
-            gossip_protocol: gossip,
-            docs_protocol: docs,
-            router: p2p_router,
+            store: store.into(),
+            blobs_protocol: blobs.into(),
+            gossip_protocol: gossip.into(),
+            docs_protocol: docs.into(),
+            router: p2p_router.into(),
         })
     }
 }
