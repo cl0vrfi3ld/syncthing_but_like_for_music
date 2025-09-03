@@ -14,4 +14,11 @@ class AppStateModel extends ChangeNotifier {
     _appState.netController = controller;
     notifyListeners();
   }
+
+  // AppStateModel newWithNetController(NetController controller) {
+  //   AppStateModel model =  AppStateModel();
+  //   model._appState.netController = controller;
+  //   return model;
+  // }
+
 }
