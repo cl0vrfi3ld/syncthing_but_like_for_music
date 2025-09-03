@@ -1,3 +1,3 @@
 pub mod api;
-pub mod fs_sync;
+pub mod backend;
 mod frb_generated;

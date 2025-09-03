@@ -33,7 +33,7 @@ class AppRoute {
     this.icon = const Icon(Icons.place),
     this.iconOutlined = const Icon(Icons.place_outlined),
     this.root = false,
-    this.isUserRoutable = true
+    this.isUserRoutable = true,
   });
 }
 
@@ -81,9 +81,8 @@ int _routeIndexFromPathUnsafe(String path, List<AppRoute> routes) {
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: "RootNavigator",
 );
-final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: "AppShellNavigator",
-);
+final GlobalKey<NavigatorState> _autoshellNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: "MainAppShellNavigator");
 
 final mainAppRoutes = appRoutesConfig.mainShellAppRoutes;
 final libraryAppRoutes = appRoutesConfig.libraryShellRoutes;
@@ -92,9 +91,15 @@ final playerRoute = appRoutesConfig.playerRoute;
 final mainAppRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/',
+  routes: manualRouterConfig,
+);
+
+final mainAutoAppRouter = GoRouter(
+  navigatorKey: _rootNavigatorKey,
+  initialLocation: '/',
   routes: [
     ShellRoute(
-      navigatorKey: _shellNavigatorKey,
+      navigatorKey: _autoshellNavigatorKey,
       builder: (context, state, child) => AppLayout(
         mainAppRoutes: mainAppRoutes,
         playerRoute: playerRoute,
@@ -180,7 +185,11 @@ class AppLayout extends StatelessWidget {
               onDestinationSelected: (index) =>
                   _setSelectedPageIndex(context, index, allRoutes),
             ),
-            Expanded(child: child),
+            Expanded(
+              child: Container(
+                child: child /*color: Theme.of(context).primaryColorLight,*/,
+              ),
+            ),
           ],
         ),
       ),

@@ -1,11 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../routing.dart';
 import 'home.dart';
 import 'library/library.dart';
+import 'settings/settings.dart';
 import 'player.dart';
 import 'search.dart';
 import 'setup.dart';
+
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: "MainAppShellNavigator",
+);
+
+final List<RouteBase> manualRouterConfig = [
+  ShellRoute(
+    navigatorKey: _shellNavigatorKey,
+    builder: (context, state, child) => AppLayout(
+      mainAppRoutes: mainAppRoutes,
+      playerRoute: playerRoute,
+      child: child,
+    ),
+    routes: [
+      GoRoute(
+        name: "Home",
+        path: "/",
+        builder: (context, state) => RouteHome(),
+      ),
+      GoRoute(
+        name: "Library",
+        path: "/library",
+        builder: (context, state) => RouteLibrary(),
+      ),
+      GoRoute(
+        name: "Search",
+        path: "/search",
+        builder: (context, state) => RouteSearch(),
+      ),
+      GoRoute(
+        name: "Settings",
+        path: "/settings",
+        builder: (context, state) => RouteSettingsRoot(),
+      ),
+    ],
+  ),
+  // the player should be outside the main shell so its screen is immersive.
+  // this may change on bigger displays/devices to have the player still contained within the nav shell
+  GoRoute(
+    name: "Player",
+    path: "/player",
+    builder: (context, state) => RoutePlayer(),
+  ),
+  GoRoute(
+    name: "Setup",
+    path: "/setup",
+    builder: (context, state) => RouteSetup(),
+  ),
+];
 
 /// container class/object for our routes. this allows us to register all of our routes in one central object and derive routing logic,
 class AppRoutesConfig {
@@ -64,11 +115,11 @@ final List<AppRoute> _mainAppRoutes = [
   AppRoute(
     name: "Settings",
     path: '/settings',
-    icon: Icon(Icons.search),
-    iconOutlined: Icon(Icons.search_outlined),
+    icon: Icon(Icons.settings),
+    iconOutlined: Icon(Icons.settings_outlined),
     body: RouteSearch(),
   ),
-  AppRoute(name: "Setup", path: "/setup", body: RouteSetup()),
+  // AppRoute(name: "Setup", path: "/setup", body: RouteSetup()),
   // AppRoute(
   //   name: "Text",
   //   icon: Icon(Icons.favorite),

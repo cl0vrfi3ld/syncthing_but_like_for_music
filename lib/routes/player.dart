@@ -7,7 +7,7 @@ class RoutePlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String greeting = greet(name: "Hello!");
+    String greeting = greet(name: "Player");
     return Center(
       child: Text(greeting, style: Theme.of(context).textTheme.displayLarge),
     );

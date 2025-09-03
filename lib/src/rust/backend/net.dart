@@ -3,13 +3,8 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
-import '../backend/net.dart';
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-String greet({required String name}) =>
-    RustLib.instance.api.crateApiSyncEngineGreet(name: name);
-
-/// initialize networking
-Future<NetController> initNetworking() =>
-    RustLib.instance.api.crateApiSyncEngineInitNetworking();
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<NetController>>
+abstract class NetController implements RustOpaqueInterface {}

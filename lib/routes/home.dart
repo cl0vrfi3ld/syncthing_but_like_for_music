@@ -27,11 +27,13 @@ class _RouteHomeState extends State<RouteHome> {
   Widget build(BuildContext context) {
     String greeting = greet(name: "Home");
     final double height = MediaQuery.sizeOf(context).height;
-
+    const ImageProvider defaultImg = NetworkImage(
+      "https://flutter.github.io/assets-for-api-docs/assets/material/content_based_color_scheme_1.png",
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 4,),
+        SizedBox(height: 4),
         Text("For You:", style: Theme.of(context).textTheme.displayMedium),
         // list of song/album/artist cards
         ConstrainedBox(
@@ -41,9 +43,39 @@ class _RouteHomeState extends State<RouteHome> {
             itemSnapping: true,
             flexWeights: const <int>[4, 2, 1],
             children: [
-              ItemCard(mode: ItemCardMode.album),
-              ItemCard(mode: ItemCardMode.artist),
-              ItemCard(mode: ItemCardMode.song),
+              ItemCard(
+                mode: ItemCardMode.album,
+                fancy: true,
+                title: 'Album',
+                subtitle: 'Artist',
+                image: defaultImg,
+              ),
+              ItemCard(
+                mode: ItemCardMode.artist,
+                fancy: true,
+                title: 'Artist',
+                image: defaultImg,
+              ),
+              ItemCard(
+                mode: ItemCardMode.song,
+                fancy: true,
+                title: 'Song',
+                subtitle: 'Artist',
+                image: defaultImg,
+              ),
+              ItemCard(
+                mode: ItemCardMode.album,
+                fancy: true,
+                title: 'Album',
+                subtitle: 'Artist',
+                image: defaultImg,
+              ),
+              ItemCard(
+                mode: ItemCardMode.artist,
+                fancy: true,
+                title: 'Artist',
+                image: defaultImg,
+              ),
             ],
           ),
         ),
