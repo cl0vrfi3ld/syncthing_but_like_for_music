@@ -53,4 +53,9 @@ impl NetController {
             router: p2p_router.into(),
         })
     }
+
+    /// gracefully shutdown all connections and activities
+    pub async fn shutdown(&self) {
+        todo!()
+    }
 }
