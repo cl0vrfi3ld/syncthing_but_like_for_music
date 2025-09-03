@@ -12,7 +12,7 @@ pub fn test() -> String {
 }
 
 /// A struct that stores the necessary handles to our various networking functions, along with other helper functions
-#[flutter_rust_bridge::frb(opaque)]
+// #[flutter_rust_bridge::frb(opaque)]
 pub struct NetController {
     // endpoint: Endpoint,
     router: Mutex<Router>,
