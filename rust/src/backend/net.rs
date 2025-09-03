@@ -11,6 +11,7 @@ pub fn test() -> String {
     "hi".to_string()
 }
 
+/// A struct that stores the necessary handles to our various networking functions, along with other helper functions
 #[flutter_rust_bridge::frb(opaque)]
 pub struct NetController {
     // endpoint: Endpoint,
@@ -22,6 +23,7 @@ pub struct NetController {
 }
 
 impl NetController {
+    /// initialize the NetController
     pub async fn init() -> anyhow::Result<Self> {
         // create a connection endpoint and advertise self to network
         let endpoint = Endpoint::builder().discovery_n0().bind().await?;
