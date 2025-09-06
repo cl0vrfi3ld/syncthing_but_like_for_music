@@ -3365,6 +3365,7 @@ dependencies = [
  "iroh-docs",
  "iroh-gossip",
  "tokio",
+ "walkdir",
 ]
 
 [[package]]

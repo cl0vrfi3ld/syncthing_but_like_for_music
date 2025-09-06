@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncthing_but_like_for_music/models/app_state.dart';
+import 'package:syncthing_but_like_for_music/src/rust/api/media.dart';
 import 'package:syncthing_but_like_for_music/src/rust/api/sync_engine.dart';
-import 'package:syncthing_but_like_for_music/src/rust/backend/net.dart';
 import 'package:syncthing_but_like_for_music/src/rust/frb_generated.dart';
 
 import 'routing.dart';
@@ -13,7 +13,9 @@ Future<void> main() async {
   await RustLib.init();
   // initialise networking engine
   var netController = await initNetworking();
-
+  var _musicDir = "~/Projects/SampleMusic";
+  // index media dir
+  var appIndex = await runIndex(musicDir: _musicDir);
   // run the app
   runApp(
     ChangeNotifierProvider(

@@ -24,7 +24,7 @@ pub struct NetController {
 
 impl NetController {
     /// initialize the NetController
-    pub async fn init() -> anyhow::Result<Self> {
+    pub(crate) async fn init() -> anyhow::Result<Self> {
         // create a connection endpoint and advertise self to network
         let endpoint = Endpoint::builder().discovery_n0().bind().await?;
         // We initialize an in-memory backing store for iroh-blobs

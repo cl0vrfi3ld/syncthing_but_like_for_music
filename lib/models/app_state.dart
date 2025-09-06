@@ -3,6 +3,7 @@ import '../src/rust/backend/net.dart';
 
 class AppState {
   late NetController netController;
+  final String musicPath = "~/Projects/SampleMusic";
 }
 
 class AppStateModel extends ChangeNotifier {

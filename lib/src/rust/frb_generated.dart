@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/media.dart';
 import 'api/sync_engine.dart';
 import 'backend/net.dart';
 import 'dart:async';
@@ -67,7 +68,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1950346641;
+  int get rustContentHash => 1823452318;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -83,6 +84,8 @@ abstract class RustLibApi extends BaseApi {
   Future<void> crateApiSyncEngineInitEngine();
 
   Future<NetController> crateApiSyncEngineInitNetworking();
+
+  Future<void> crateApiMediaRunIndex({required String musicDir});
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_NetController;
@@ -179,6 +182,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiSyncEngineInitNetworkingConstMeta =>
       const TaskConstMeta(debugName: "init_networking", argNames: []);
+
+  @override
+  Future<void> crateApiMediaRunIndex({required String musicDir}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(musicDir, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 4,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiMediaRunIndexConstMeta,
+        argValues: [musicDir],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiMediaRunIndexConstMeta =>
+      const TaskConstMeta(debugName: "run_index", argNames: ["musicDir"]);
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_NetController => wire
