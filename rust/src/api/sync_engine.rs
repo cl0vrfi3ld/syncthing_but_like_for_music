@@ -21,6 +21,5 @@ pub async fn init_networking() -> anyhow::Result<NetController> {
 pub fn init_engine() {
     // Default utilities - feel free to customize
     flutter_rust_bridge::setup_default_user_utils();
-    net::test();
 }
 

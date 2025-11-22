@@ -19,12 +19,16 @@ class ItemCard extends StatelessWidget {
   /// Optional subheading/subtitle for the card
   final String? subtitle;
 
+  /// Optional extra subheading/subtitle for the card
+  final String? extra;
+
   const ItemCard({
     super.key,
     required this.mode,
     this.fancy = false,
     required this.title,
     this.subtitle,
+    this.extra,
     required this.image,
   });
 
@@ -57,15 +61,37 @@ class ItemCard extends StatelessWidget {
                     context,
                   ).textTheme.headlineLarge?.copyWith(color: Colors.white),
                 ),
-                if (subtitle != null) (
-                  Text(
-                    subtitle!,
-                    overflow: TextOverflow.clip,
-                    softWrap: false,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: Colors.white),
-                  )),
+                if (subtitle != null)
+                  Row(
+                    children: [
+                      (Text(
+                        subtitle!,
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                      )),
+                      if (extra != null)
+                        Text(
+                          " • ",
+                          overflow: TextOverflow.clip,
+                          softWrap: false,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                        ),
+                      if (extra != null)
+                        Text(
+                          extra!,
+                          overflow: TextOverflow.clip,
+                          softWrap: false,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+                        ),
+                    ],
+                  ),
               ],
             ),
           ),

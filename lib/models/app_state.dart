@@ -21,5 +21,4 @@ class AppStateModel extends ChangeNotifier {
   //   model._appState.netController = controller;
   //   return model;
   // }
-
 }

@@ -14,7 +14,8 @@
         "recommendations": [
             "dart-code.flutter",
             "rust-lang.rust-analyzer",
-            "dart-code.dart-code"
+            "dart-code.dart-code",
+            "twxs.cmake"
         ]
     }
 }

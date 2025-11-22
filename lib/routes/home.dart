@@ -1,10 +1,10 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+
+import 'package:syncthing_but_like_for_music/src/rust/api/media.dart';
 
 import '../src/rust/api/sync_engine.dart';
 
-import '../widgets/album_card.dart';
-import '../widgets/artist_card.dart';
-import '../widgets/song_card.dart';
 import '../widgets/item_card.dart';
 
 class RouteHome extends StatefulWidget {
@@ -12,6 +12,19 @@ class RouteHome extends StatefulWidget {
 
   @override
   State<RouteHome> createState() => _RouteHomeState();
+}
+
+Future<void> doIndex() async {
+  var musicDir = "~/Projects/SampleMusic";
+  String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+
+  if (selectedDirectory == null) {
+    // User canceled the picker
+    return;
+  }
+  // index media dir
+  var appIndex = await runIndex(musicDir: selectedDirectory);
+  return;
 }
 
 class _RouteHomeState extends State<RouteHome> {
@@ -61,6 +74,7 @@ class _RouteHomeState extends State<RouteHome> {
                 fancy: true,
                 title: 'Song',
                 subtitle: 'Artist',
+                extra: "Album",
                 image: defaultImg,
               ),
               ItemCard(
@@ -79,6 +93,7 @@ class _RouteHomeState extends State<RouteHome> {
             ],
           ),
         ),
+        FilledButton(onPressed: doIndex, child: Text("Do Index")),
       ],
     );
 

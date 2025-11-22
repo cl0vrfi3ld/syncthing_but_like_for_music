@@ -8,5 +8,4 @@ class ArtistCard extends StatelessWidget {
     // TODO: implement build
     throw UnimplementedError();
   }
-
 }
